@@ -1,0 +1,22 @@
+{% import 'components.noora.macros' as ui %}
+{% if (component.enabled is not defined or component.enabled) and component.categories|length %}
+<section component-id="{{ componentId }}" class="nl-section nl-categories nl-container" aria-labelledby="nl-categories-{{ position }}">
+    <div class="nl-section-heading nl-section-heading--center">
+        {% if component.eyebrow %}<p class="nl-eyebrow">{{ ui.text(component.eyebrow, language.code) }}</p>{% endif %}
+        <h2 class="nl-heading" id="nl-categories-{{ position }}">{{ ui.text(component.title, language.code) }}</h2>
+    </div>
+    <div class="nl-categories__grid">
+        {% for category in component.categories %}
+            {% set category_url = ui.url(category.url)|trim %}
+            {% if category_url %}
+            <a class="nl-category" href="{{ category_url|e('html_attr') }}">
+                <div class="nl-category__image">
+                    {% if category.image %}<img src="{{ category.image|e('html_attr') }}" width="480" height="600" loading="lazy" decoding="async" alt="">{% else %}<i class="sicon-image" aria-hidden="true"></i>{% endif %}
+                </div>
+                <span>{{ category.name|e }}<i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i></span>
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}

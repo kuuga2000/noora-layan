@@ -1,0 +1,14 @@
+{% import 'components.noora.macros' as ui %}
+{% if (component.enabled is not defined or component.enabled) and (component.automatic or component.products|length) %}
+{% set cta_url = ui.url(component.cta_url)|trim %}
+<section component-id="{{ componentId }}" class="nl-section nl-products nl-container" aria-labelledby="nl-products-title-{{ position }}">
+    <div class="nl-section-heading nl-section-heading--split">
+        <div>
+            {% if component.eyebrow %}<p class="nl-eyebrow">{{ ui.text(component.eyebrow, language.code) }}</p>{% endif %}
+            <h2 class="nl-heading" id="nl-products-title-{{ position }}">{{ ui.text(component.title, language.code) }}</h2>
+        </div>
+        {% if cta_url and component.cta_label %}<a class="nl-text-link" href="{{ cta_url|e('html_attr') }}">{{ ui.text(component.cta_label, language.code) }}<i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i></a>{% endif %}
+    </div>
+    <salla-products-slider source="{{ component.automatic ? 'latest' : 'selected' }}" {% if not component.automatic %}source-value="{{ component.products|map((product) => product.id)|json_encode|e('html_attr') }}"{% endif %} limit="8" slider-id="nl-products-{{ position }}" product-card-component="custom-salla-product-card"></salla-products-slider>
+</section>
+{% endif %}

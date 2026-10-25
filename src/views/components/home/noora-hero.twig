@@ -1,0 +1,16 @@
+{% import 'components.noora.macros' as ui %}
+{% if component.enabled is not defined or component.enabled %}
+    {% set cta_url = ui.url(component.cta_url)|trim %}
+    {% set alt = component.image_alt is iterable ? component.image_alt[language.code]|default(component.image_alt|first) : component.image_alt %}
+    <section component-id="{{ componentId }}" class="nl-hero" aria-labelledby="nl-hero-{{ position }}">
+        {% include 'components.noora.picture' with {desktop_image: component.image, mobile_image: component.mobile_image, image_alt: alt, fallback: 'hero', eager: position == 0, picture_class: 'nl-hero__picture'} %}
+        <div class="nl-hero__inner nl-container">
+            <div class="nl-hero__copy">
+                {% if component.eyebrow %}<p class="nl-eyebrow">{{ ui.text(component.eyebrow, language.code) }}</p>{% endif %}
+                <h2 class="nl-display" id="nl-hero-{{ position }}">{{ ui.text(component.title, language.code) }}</h2>
+                {% if component.description %}<p class="nl-description">{{ ui.text(component.description, language.code) }}</p>{% endif %}
+                {% if cta_url and component.cta_label %}<a class="nl-button" href="{{ cta_url|e('html_attr') }}">{{ ui.text(component.cta_label, language.code) }}<i class="sicon-arrow-up-left nl-arrow" aria-hidden="true"></i></a>{% endif %}
+            </div>
+        </div>
+    </section>
+{% endif %}

@@ -1,0 +1,32 @@
+<header data-testid="store-header" class="store-header nl-header">
+    {% include 'components.noora.announcement' %}
+    <div id="mainnav" class="main-nav-container">
+        <div class="inner">
+            <div class="container nl-container">
+                <div class="nl-header__main flex">
+                    <div class="nl-header__start">
+                        <a class="nl-icon-button nl-menu-toggle mburger" href="#mobile-menu" aria-controls="mobile-menu" aria-expanded="false" aria-label="{{ trans('noora.menu') }}"><i class="sicon-menu" aria-hidden="true"></i></a>
+                        <div class="nl-header__search"><salla-search data-testid="store-header-search" inline height="42"></salla-search></div>
+                    </div>
+                    <a data-testid="store-header-logo" class="navbar-brand nl-header__brand" href="{{ store.url }}">
+                        {% if store.logo %}<img width="175" height="64" loading="eager" src="{{ store.logo|cdn(350) }}" alt="{{ store.name|e('html_attr') }}">{% else %}<span>{{ store.name|e }}</span>{% endif %}
+                        {% if is_page('index') %}<h1 class="sr-only">{{ store.name|e }}</h1>{% endif %}
+                    </a>
+                    <div class="nl-header__actions">
+                        {% if store.settings.is_multilingual or store.settings.currencies_enabled %}<div class="nl-header__localization"><salla-localization-modal show-trigger></salla-localization-modal></div>{% endif %}
+                        <salla-user-menu data-testid="store-header-user-menu" avatar-only show-header show-trigger></salla-user-menu>
+                        {% if theme.settings.get('nl_header_wishlist', true) %}<a class="nl-icon-button nl-header__wishlist" href="{{ link('account/wishlist') }}" aria-label="{{ trans('noora.wishlist') }}"><i class="sicon-heart" aria-hidden="true"></i></a>{% endif %}
+                        <salla-cart-summary data-testid="store-header-cart"><i slot="icon" class="header-btn__icon icon sicon-shopping-bag" aria-hidden="true"></i></salla-cart-summary>
+                    </div>
+                </div>
+                <div class="nl-header__navigation"><custom-main-menu></custom-main-menu></div>
+                <div class="nl-header__mobile-search"><salla-search inline height="42"></salla-search></div>
+            </div>
+        </div>
+    </div>
+    <div class="nl-header__services nl-container">
+        <salla-bullet-delivery-tag></salla-bullet-delivery-tag>
+        {% if store.scope %}<button class="nl-scope" type="button" onclick="salla.event.dispatch('scopes::open', {'mode': 'default'})"><i class="sicon-location" aria-hidden="true"></i>{{ store.scope.name|e }}</button>{% endif %}
+        {% if store.settings.is_multilingual or store.settings.currencies_enabled %}<div class="nl-header__mobile-localization"><salla-localization-modal show-trigger></salla-localization-modal></div>{% endif %}
+    </div>
+</header>

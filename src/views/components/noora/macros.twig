@@ -1,0 +1,7 @@
+{# Accept both resolved strings and multilingual maps from the merchant editor. #}
+{% macro text(value, locale) %}{{- (value is iterable ? value[locale]|default(value|first) : value)|e -}}{% endmacro %}
+
+{# Only navigable web URLs, same-site paths and nonempty fragment targets. #}
+{% macro url(value) %}
+    {%- if value is not iterable and value|trim matches '~^(https?://|/(?!/)|#[^\\s])~i' -%}{{- value|trim|raw -}}{%- endif -%}
+{% endmacro %}

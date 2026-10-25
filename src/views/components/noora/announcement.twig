@@ -1,0 +1,9 @@
+{% import 'components.noora.macros' as ui %}
+{% set announcement = theme.settings.get('nl_announcement_text') %}
+{% set announcement_text = (announcement is iterable ? announcement[language.code]|default(announcement|first) : announcement)|trim %}
+{% if theme.settings.get('nl_announcement_enabled', false) and announcement_text %}
+{% set announcement_url = ui.url(theme.settings.get('nl_announcement_url'))|trim %}
+<div class="nl-announcement">
+    {% if announcement_url %}<a href="{{ announcement_url|e('html_attr') }}">{{ announcement_text|e }}<i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i></a>{% else %}<p>{{ announcement_text }}</p>{% endif %}
+</div>
+{% endif %}

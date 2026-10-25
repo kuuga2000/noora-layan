@@ -1,0 +1,15 @@
+{# Bundled, original photographs are demo fallbacks. No remote stock-photo dependency. #}
+{% set desktop_image = desktop_image|default('') %}
+{% set mobile_image = mobile_image|default(desktop_image) %}
+{% set large_width = fallback == 'hero' ? 1440 : 1024 %}
+{% set small_width = fallback == 'hero' ? 960 : 640 %}
+{% set image_height = fallback == 'hero' ? 960 : 1536 %}
+<picture class="{{ picture_class|default('nl-picture') }}">
+    {% if desktop_image %}
+        {% if mobile_image %}<source media="(max-width: 639px)" srcset="{{ mobile_image|e('html_attr') }}">{% endif %}
+        <img src="{{ desktop_image|e('html_attr') }}" alt="{{ image_alt|e('html_attr') }}" width="{{ large_width }}" height="{{ image_height }}" loading="{{ eager ? 'eager' : 'lazy' }}" {% if eager %}fetchpriority="high"{% endif %} decoding="async">
+    {% else %}
+        <source media="(max-width: 639px)" srcset="{% if mobile_image %}{{ mobile_image|e('html_attr') }}{% else %}{{ ('images/noora/' ~ fallback ~ '-mobile.webp')|asset }}{% endif %}">
+        <img src="{{ ('images/noora/' ~ fallback ~ '-' ~ large_width ~ '.webp')|asset }}" srcset="{{ ('images/noora/' ~ fallback ~ '-' ~ small_width ~ '.webp')|asset }} {{ small_width }}w, {{ ('images/noora/' ~ fallback ~ '-' ~ large_width ~ '.webp')|asset }} {{ large_width }}w" sizes="{{ image_sizes|default('100vw') }}" alt="{{ image_alt|e('html_attr') }}" width="{{ large_width }}" height="{{ image_height }}" loading="{{ eager ? 'eager' : 'lazy' }}" {% if eager %}fetchpriority="high"{% endif %} decoding="async">
+    {% endif %}
+</picture>
