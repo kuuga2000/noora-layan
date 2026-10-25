@@ -1,5 +1,25 @@
 <header data-testid="store-header" class="store-header nl-header">
-    {% include 'components.noora.announcement' %}
+    {% if theme.settings.get('nl_announcement_enabled', false) %}
+        {% set announcement_text = theme.settings.get('nl_announcement_text', '') %}
+        {% if announcement_text is iterable %}
+            {% set announcement_text = announcement_text[language.code]|default('') %}
+        {% endif %}
+        {% if announcement_text is not iterable and announcement_text|trim %}
+            {% set announcement_url = theme.settings.get('nl_announcement_url', '') %}
+            {% if announcement_url is iterable %}
+                {% set announcement_url = announcement_url.url|default('') %}
+            {% endif %}
+            {% set announcement_url = announcement_url is iterable ? '' : announcement_url|trim %}
+            {% set has_announcement_link = announcement_url starts with 'https://' or announcement_url starts with 'http://' or (announcement_url starts with '/' and not (announcement_url starts with '//')) or (announcement_url starts with '#' and announcement_url|length > 1) %}
+            <div class="nl-announcement">
+                {% if has_announcement_link %}
+                    <a href="{{ announcement_url|e('html_attr') }}">{{ announcement_text|e }}<i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i></a>
+                {% else %}
+                    <p>{{ announcement_text|e }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
     <div id="mainnav" class="main-nav-container">
         <div class="inner">
             <div class="container nl-container">
