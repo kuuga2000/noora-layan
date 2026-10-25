@@ -3,5 +3,10 @@
 
 {# Only navigable web URLs, same-site paths and nonempty fragment targets. #}
 {% macro url(value) %}
-    {%- if value is not iterable and value|trim matches '~^(https?://|/(?!/)|#[^\\s])~i' -%}{{- value|trim|raw -}}{%- endif -%}
+    {%- if value is not iterable -%}
+        {%- set url = value|trim -%}
+        {%- if url starts with 'https://' or url starts with 'http://' or (url starts with '/' and not (url starts with '//')) or (url starts with '#' and url|length > 1) -%}
+            {{- url|raw -}}
+        {%- endif -%}
+    {%- endif -%}
 {% endmacro %}
