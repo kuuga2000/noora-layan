@@ -136,6 +136,46 @@
             {% endif %}
         </section>
     {% endif %}
+    {% if theme.settings.get('nl_ready_section_enabled', true) %}
+        {% set ready_title = theme.settings.get('nl_ready_title', {'ar': 'جاهزة لكل لحظة', 'en': 'Ready for your next moment'}) %}
+        {% set ready_title = ready_title is iterable ? ready_title[language.code]|default('') : ready_title %}
+        {% set ready_categories = theme.settings.get('nl_ready_categories', []) %}
+        {% set ready_links = [] %}
+        {% if ready_categories is iterable %}
+            {% for category in ready_categories %}
+                {% set category_name = category.name|default('') %}
+                {% set category_url = category.url|default('') %}
+                {% set category_image = category.image|default('') %}
+                {% set category_url = category_url is iterable ? '' : category_url|trim %}
+                {% set category_link_ok = category_url starts with 'https://' or category_url starts with 'http://' or (category_url starts with '/' and not (category_url starts with '//')) %}
+                {% if category_name is not iterable and category_name and category_link_ok %}
+                    {% set ready_links = ready_links|merge([{'label': category_name, 'url': category_url, 'image': category_image, 'mark': loop.index is odd ? 'N' : 'L'}]) %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if not ready_links|length %}
+            {% set ready_links = [
+                {'label': language.code == 'ar' ? 'وصل حديثاً' : 'New arrivals', 'url': link('latest-products'), 'image': 'images/noora/hero-mobile.webp'|asset, 'mark': 'N'},
+                {'label': language.code == 'ar' ? 'الأكثر مبيعاً' : 'Best sellers', 'url': link('most-sales-products'), 'image': 'images/noora/campaign-bag-mobile.webp'|asset, 'mark': 'L'},
+                {'label': language.code == 'ar' ? 'العروض المختارة' : 'Selected offers', 'url': link('offers'), 'image': 'images/noora/campaign-shoes-mobile.webp'|asset, 'mark': 'N'},
+                {'label': language.code == 'ar' ? 'اكتشفي العلامات' : 'Discover brands', 'url': link('brands'), 'image': 'images/noora/editorial-mobile.webp'|asset, 'mark': 'L'}
+            ] %}
+        {% endif %}
+        <section class="nl-section nl-categories nl-container nl-categories--ready" aria-labelledby="nl-ready-title">
+            <div class="nl-section-heading nl-section-heading--center">
+                <p class="nl-eyebrow">{{ language.code == 'ar' ? 'نورا ليان | مختارات يومية' : 'NOORA LAYAN | EVERYDAY EDIT' }}</p>
+                <h2 class="nl-heading" id="nl-ready-title">{{ ready_title is not iterable and ready_title ? ready_title|e : '' }}</h2>
+            </div>
+            <div class="nl-categories__grid">
+                {% for item in ready_links %}
+                    <a class="nl-category nl-category--ready" href="{{ item.url|e('html_attr') }}">
+                        <div class="nl-category__image{{ item.image is not iterable and item.image ? '' : ' nl-category__image--fallback' }}">{% if item.image is not iterable and item.image %}<img src="{{ item.image|e('html_attr') }}" width="480" height="600" loading="lazy" decoding="async" alt="">{% else %}<span aria-hidden="true">{{ item.mark }}</span>{% endif %}</div>
+                        <span class="nl-category__label"><span>{{ item.label|e }}</span><i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i></span>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
     {% component home %}
 {% endblock %}
 {% block scripts %}

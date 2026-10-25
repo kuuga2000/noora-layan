@@ -203,6 +203,46 @@
       "value": "شريط العلامات والمختارات — نورا ليان"
     },
     {
+      "id": "nl_ready_heading",
+      "type": "static",
+      "format": "title",
+      "value": "اكتشافات نورا ليان — الصفحة الرئيسية"
+    },
+    {
+      "id": "nl_ready_section_enabled",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار قسم اكتشف مختارات نورا",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "nl_ready_title",
+      "type": "string",
+      "format": "text",
+      "label": "عنوان قسم الاكتشاف",
+      "multilanguage": true,
+      "required": false,
+      "value": {
+        "ar": "جاهزة لكل لحظة",
+        "en": "Ready for your next moment"
+      },
+      "maxLength": 120
+    },
+    {
+      "id": "nl_ready_categories",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "تصنيفات قسم الاكتشاف حسب الترتيب",
+      "source": "categories",
+      "options": [],
+      "selected": [],
+      "multichoice": true,
+      "searchable": true,
+      "required": false
+    },
+    {
       "id": "nl_brand_rail_enabled",
       "type": "boolean",
       "format": "switch",
