@@ -14,7 +14,7 @@ salla theme preview --with-editor
 
 Preview requires this repository to be registered in Salla Partners and a valid remote theme commit. Changes are not automatically published by a build. In the editor, add the six **Noora** components in the desired order, choose store categories/products/brands, and set campaign CTA destinations. No fake merchant categories or products are supplied. The optional announcement is disabled until configured. Original bundled AI editorial photography is demo content and can be replaced in each component.
 
-Generated `public/` output is ignored; edit `src/` instead. `check:noora` checks local contracts, not Salla server rendering or editor acceptance. `pnpm test` runs the same local contract checks.
+Generated `public/` output is committed for Salla's theme asset workflow, as in Theme Raed. Run `pnpm run production` after changing `src/`; do not edit `public/` by hand. `check:noora` checks local contracts, not Salla server rendering or editor acceptance. `pnpm test` runs the same local contract checks.
 
 Ticket decisions, progress and verification live only in [SL-001](/workspace/specs/noora-layan/SL-001-luxury-fashion-homepage.md).
 
