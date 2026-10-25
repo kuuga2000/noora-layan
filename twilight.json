@@ -32,6 +32,65 @@
       "value": "Noora Layan — نورا ليان"
     },
     {
+      "id": "nl_topbar_heading",
+      "type": "static",
+      "format": "title",
+      "value": "الشريط العلوي — نورا ليان"
+    },
+    {
+      "id": "nl_topbar_enabled",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار الشريط العلوي",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "nl_topbar_service_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص الخدمة",
+      "multilanguage": true,
+      "required": false,
+      "value": {
+        "ar": "استبدال وإرجاع سهل خلال 14 يوماً",
+        "en": "Easy returns within 14 days"
+      },
+      "maxLength": 100
+    },
+    {
+      "id": "nl_topbar_service_url",
+      "type": "string",
+      "format": "text",
+      "label": "رابط الخدمة — اختياري",
+      "description": "رابط كامل يبدأ بـ https:// أو مسار داخل المتجر يبدأ بـ /",
+      "required": false,
+      "value": ""
+    },
+    {
+      "id": "nl_topbar_promo_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص العرض",
+      "multilanguage": true,
+      "required": false,
+      "value": {
+        "ar": "اكتشفي أحدث مختارات نورا ليان",
+        "en": "Discover the latest Noora Layan edit"
+      },
+      "maxLength": 100
+    },
+    {
+      "id": "nl_topbar_promo_url",
+      "type": "string",
+      "format": "text",
+      "label": "رابط العرض — اختياري",
+      "description": "رابط كامل يبدأ بـ https:// أو مسار داخل المتجر يبدأ بـ /",
+      "required": false,
+      "value": "/latest-products"
+    },
+    {
       "id": "nl_announcement_enabled",
       "type": "boolean",
       "format": "switch",
@@ -130,6 +189,265 @@
       "required": false,
       "value": true,
       "selected": true
+    },
+    {
+      "id": "nl_campaign_heading",
+      "type": "static",
+      "format": "title",
+      "value": "حملة الصفحة الرئيسية — نورا ليان"
+    },
+    {
+      "id": "nl_brand_rail_heading",
+      "type": "static",
+      "format": "title",
+      "value": "شريط العلامات والمختارات — نورا ليان"
+    },
+    {
+      "id": "nl_brand_rail_enabled",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار شريط العلامات فوق الحملة",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "nl_brand_rail_title",
+      "type": "string",
+      "format": "text",
+      "label": "عنوان شريط العلامات",
+      "multilanguage": true,
+      "required": false,
+      "value": {
+        "ar": "مختارات تستحق الاكتشاف",
+        "en": "Labels to discover"
+      },
+      "maxLength": 100
+    },
+    {
+      "id": "nl_brand_rail_brands",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "علامات تجارية مختارة حسب الترتيب",
+      "source": "brands",
+      "options": [],
+      "selected": [],
+      "multichoice": true,
+      "searchable": true,
+      "required": false
+    },
+    {
+      "id": "nl_campaign_enabled",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار حملة الصفحة الرئيسية",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "nl_campaign_image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الحملة — سطح المكتب",
+      "required": false,
+      "value": null
+    },
+    {
+      "id": "nl_campaign_mobile_image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الحملة — الجوال",
+      "required": false,
+      "value": null
+    },
+    {
+      "id": "nl_campaign_title",
+      "type": "string",
+      "format": "text",
+      "label": "عنوان الحملة",
+      "multilanguage": true,
+      "required": false,
+      "value": {
+        "ar": "تفاصيل تصنع الفرق",
+        "en": "The art of the everyday"
+      },
+      "maxLength": 100
+    },
+    {
+      "id": "nl_campaign_description",
+      "type": "string",
+      "format": "textarea",
+      "label": "وصف الحملة",
+      "multilanguage": true,
+      "required": false,
+      "value": {
+        "ar": "مختارات أنيقة ترافق لحظاتكِ الجميلة.",
+        "en": "Considered pieces for the moments that matter."
+      },
+      "maxLength": 180
+    },
+    {
+      "id": "nl_campaign_cta_label",
+      "type": "string",
+      "format": "text",
+      "label": "نص زر الحملة",
+      "multilanguage": true,
+      "required": false,
+      "value": {
+        "ar": "تسوقي الآن",
+        "en": "Discover the edit"
+      },
+      "maxLength": 50
+    },
+    {
+      "id": "nl_campaign_cta_url",
+      "type": "string",
+      "format": "text",
+      "label": "رابط زر الحملة — اختياري",
+      "description": "رابط كامل يبدأ بـ https:// أو مسار داخل المتجر يبدأ بـ /",
+      "required": false,
+      "value": "/latest-products"
+    },
+    {
+      "id": "nl_campaign_2_heading",
+      "type": "static",
+      "format": "title",
+      "value": "الشريحة الثانية — نورا ليان"
+    },
+    {
+      "id": "nl_campaign_2_enabled",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار الشريحة الثانية",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "nl_campaign_2_image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الشريحة الثانية — سطح المكتب",
+      "required": false,
+      "value": null
+    },
+    {
+      "id": "nl_campaign_2_mobile_image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الشريحة الثانية — الجوال",
+      "required": false,
+      "value": null
+    },
+    {
+      "id": "nl_campaign_2_title",
+      "type": "string",
+      "format": "text",
+      "label": "عنوان الشريحة الثانية",
+      "multilanguage": true,
+      "required": false,
+      "value": {"ar": "أناقة على مهل", "en": "Elegance, in its own time"},
+      "maxLength": 100
+    },
+    {
+      "id": "nl_campaign_2_description",
+      "type": "string",
+      "format": "textarea",
+      "label": "وصف الشريحة الثانية",
+      "multilanguage": true,
+      "required": false,
+      "value": {"ar": "اكتشفي قطعاً تناسب كل يوم.", "en": "Discover pieces made for every day."},
+      "maxLength": 180
+    },
+    {
+      "id": "nl_campaign_2_cta_label",
+      "type": "string",
+      "format": "text",
+      "label": "نص زر الشريحة الثانية",
+      "multilanguage": true,
+      "required": false,
+      "value": {"ar": "اكتشفي المجموعة", "en": "Explore the collection"},
+      "maxLength": 50
+    },
+    {
+      "id": "nl_campaign_2_cta_url",
+      "type": "string",
+      "format": "text",
+      "label": "رابط زر الشريحة الثانية",
+      "description": "رابط كامل يبدأ بـ https:// أو مسار داخل المتجر يبدأ بـ /",
+      "required": false,
+      "value": "/latest-products"
+    },
+    {
+      "id": "nl_campaign_3_heading",
+      "type": "static",
+      "format": "title",
+      "value": "الشريحة الثالثة — نورا ليان"
+    },
+    {
+      "id": "nl_campaign_3_enabled",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار الشريحة الثالثة",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "nl_campaign_3_image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الشريحة الثالثة — سطح المكتب",
+      "required": false,
+      "value": null
+    },
+    {
+      "id": "nl_campaign_3_mobile_image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الشريحة الثالثة — الجوال",
+      "required": false,
+      "value": null
+    },
+    {
+      "id": "nl_campaign_3_title",
+      "type": "string",
+      "format": "text",
+      "label": "عنوان الشريحة الثالثة",
+      "multilanguage": true,
+      "required": false,
+      "value": {"ar": "لمسة تكمّل إطلالتك", "en": "The finishing touch"},
+      "maxLength": 100
+    },
+    {
+      "id": "nl_campaign_3_description",
+      "type": "string",
+      "format": "textarea",
+      "label": "وصف الشريحة الثالثة",
+      "multilanguage": true,
+      "required": false,
+      "value": {"ar": "تفاصيل مختارة تمنح إطلالتك طابعاً خاصاً.", "en": "Considered details for a look of your own."},
+      "maxLength": 180
+    },
+    {
+      "id": "nl_campaign_3_cta_label",
+      "type": "string",
+      "format": "text",
+      "label": "نص زر الشريحة الثالثة",
+      "multilanguage": true,
+      "required": false,
+      "value": {"ar": "تسوقي الآن", "en": "Discover more"},
+      "maxLength": 50
+    },
+    {
+      "id": "nl_campaign_3_cta_url",
+      "type": "string",
+      "format": "text",
+      "label": "رابط زر الشريحة الثالثة",
+      "description": "رابط كامل يبدأ بـ https:// أو مسار داخل المتجر يبدأ بـ /",
+      "required": false,
+      "value": "/latest-products"
     },
     {
       "id": "nl_color_ivory",

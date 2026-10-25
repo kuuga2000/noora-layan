@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 120" role="img" aria-labelledby="title desc">
+  <title id="title">Noora Layan</title>
+  <desc id="desc">Noora Layan luxury fashion wordmark</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 91V28l53 63V28" stroke="#332821" stroke-width="7"/>
+    <path d="m48.5 8 8 8-8 8-8-8z" fill="#C6A77D" stroke="none"/>
+  </g>
+  <text x="108" y="58" fill="#332821" font-family="Georgia, 'Times New Roman', serif" font-size="47" font-weight="400" letter-spacing="5">NOORA</text>
+  <path d="M111 77h202" stroke="#C6A77D" stroke-width="1"/>
+  <text x="113" y="99" fill="#7A6148" font-family="Arial, sans-serif" font-size="14" font-weight="600" letter-spacing="9">LAYAN</text>
+</svg>

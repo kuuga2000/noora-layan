@@ -1,22 +1,42 @@
 <header data-testid="store-header" class="store-header nl-header">
-    {% if theme.settings.get('nl_announcement_enabled', false) %}
+    {% if theme.settings.get('nl_topbar_enabled', true) %}
+        {% set topbar_service_text = theme.settings.get('nl_topbar_service_text', {'ar': 'استبدال وإرجاع سهل خلال 14 يوماً', 'en': 'Easy returns within 14 days'}) %}
+        {% set topbar_promo_text = theme.settings.get('nl_topbar_promo_text', {'ar': 'اكتشفي أحدث مختارات نورا ليان', 'en': 'Discover the latest Noora Layan edit'}) %}
+        {% set topbar_service_text = topbar_service_text is iterable ? topbar_service_text[language.code]|default('') : topbar_service_text %}
+        {% set topbar_promo_text = topbar_promo_text is iterable ? topbar_promo_text[language.code]|default('') : topbar_promo_text %}
         {% set announcement_text = theme.settings.get('nl_announcement_text', '') %}
-        {% if announcement_text is iterable %}
-            {% set announcement_text = announcement_text[language.code]|default('') %}
+        {% set announcement_text = announcement_text is iterable ? announcement_text[language.code]|default('') : announcement_text %}
+        {% set announcement_url = theme.settings.get('nl_announcement_url', '') %}
+        {% set announcement_url = announcement_url is iterable ? announcement_url.url|default('') : announcement_url %}
+        {% if theme.settings.get('nl_announcement_enabled', false) and announcement_text is not iterable and announcement_text|trim %}
+            {% set topbar_promo_text = announcement_text %}
+            {% set topbar_promo_url = announcement_url %}
+        {% else %}
+            {% set topbar_promo_url = theme.settings.get('nl_topbar_promo_url', '/latest-products') %}
         {% endif %}
-        {% if announcement_text is not iterable and announcement_text|trim %}
-            {% set announcement_url = theme.settings.get('nl_announcement_url', '') %}
-            {% if announcement_url is iterable %}
-                {% set announcement_url = announcement_url.url|default('') %}
-            {% endif %}
-            {% set announcement_url = announcement_url is iterable ? '' : announcement_url|trim %}
-            {% set has_announcement_link = announcement_url starts with 'https://' or announcement_url starts with 'http://' or (announcement_url starts with '/' and not (announcement_url starts with '//')) or (announcement_url starts with '#' and announcement_url|length > 1) %}
-            <div class="nl-announcement">
-                {% if has_announcement_link %}
-                    <a href="{{ announcement_url|e('html_attr') }}">{{ announcement_text|e }}<i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i></a>
-                {% else %}
-                    <p>{{ announcement_text|e }}</p>
-                {% endif %}
+        {% set topbar_service_url = theme.settings.get('nl_topbar_service_url', '') %}
+        {% set topbar_service_url = topbar_service_url is iterable ? '' : topbar_service_url|trim %}
+        {% set topbar_promo_url = topbar_promo_url is iterable ? '' : topbar_promo_url|trim %}
+        {% set topbar_service_link = topbar_service_url starts with 'https://' or topbar_service_url starts with 'http://' or (topbar_service_url starts with '/' and not (topbar_service_url starts with '//')) %}
+        {% set topbar_promo_link = topbar_promo_url starts with 'https://' or topbar_promo_url starts with 'http://' or (topbar_promo_url starts with '/' and not (topbar_promo_url starts with '//')) %}
+        {% if (topbar_service_text is not iterable and topbar_service_text|trim) or (topbar_promo_text is not iterable and topbar_promo_text|trim) %}
+            <div class="nl-topbar">
+                <div class="nl-container nl-topbar__inner">
+                    {% if topbar_service_text is not iterable and topbar_service_text|trim %}
+                        <div class="nl-topbar__item nl-topbar__item--service">
+                            {% if topbar_service_link %}<a href="{{ topbar_service_url|e('html_attr') }}">{% else %}<span class="nl-topbar__content">{% endif %}
+                                <span class="nl-topbar__mark" aria-hidden="true">14</span><span>{{ topbar_service_text|e }}</span>{% if topbar_service_link %}<i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i>{% endif %}
+                            {% if topbar_service_link %}</a>{% else %}</span>{% endif %}
+                        </div>
+                    {% endif %}
+                    {% if topbar_promo_text is not iterable and topbar_promo_text|trim %}
+                        <div class="nl-topbar__item nl-topbar__item--promo">
+                            {% if topbar_promo_link %}<a href="{{ topbar_promo_url|e('html_attr') }}">{% else %}<span class="nl-topbar__content">{% endif %}
+                                <span class="nl-topbar__gem" aria-hidden="true"></span><span>{{ topbar_promo_text|e }}</span>{% if topbar_promo_link %}<i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i>{% endif %}
+                            {% if topbar_promo_link %}</a>{% else %}</span>{% endif %}
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
     {% endif %}
@@ -29,7 +49,7 @@
                         <div class="nl-header__search"><salla-search data-testid="store-header-search" inline height="42"></salla-search></div>
                     </div>
                     <a data-testid="store-header-logo" class="navbar-brand nl-header__brand" href="{{ store.url }}">
-                        {% if store.logo %}<img width="175" height="64" loading="eager" src="{{ store.logo|cdn(350) }}" alt="{{ store.name|e('html_attr') }}">{% else %}<span>{{ store.name|e }}</span>{% endif %}
+                        <img width="190" height="56" loading="eager" src="{{ 'images/noora/noora-layan-logo.svg'|asset }}" alt="Noora Layan">
                         {% if is_page('index') %}<h1 class="sr-only">{{ store.name|e }}</h1>{% endif %}
                     </a>
                     <div class="nl-header__actions">

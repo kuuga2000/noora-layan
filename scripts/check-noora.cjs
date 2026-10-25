@@ -32,7 +32,7 @@ assert.ok(product.includes('custom-salla-product-card') && product.includes('pro
 assert.ok(!/\b(?:SAR|USD)\b|source-value="\[\d/.test(product), 'No fixed currency/product IDs');
 const picture = fs.readFileSync('src/views/components/noora/picture.twig', 'utf8');
 assert.ok(picture.includes('fetchpriority="high"') && picture.includes("'eager' : 'lazy'"));
-for (const name of ['hero-1440','hero-960','hero-mobile','editorial-1024','editorial-640','editorial-mobile']) {
+for (const name of ['hero-1440','hero-960','hero-mobile','editorial-1024','editorial-640','editorial-mobile','campaign-bag-1600','campaign-bag-960','campaign-bag-mobile','campaign-shoes-1600','campaign-shoes-960','campaign-shoes-mobile']) {
   const file = `src/assets/images/noora/${name}.webp`;
   assert.ok(fs.statSync(file).size < 250000, `${file} exceeds demo image budget`);
 }

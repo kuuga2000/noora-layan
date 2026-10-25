@@ -185,13 +185,42 @@ isElementLoaded(selector){
       return;
     }
 
-    window.addEventListener('load', () => setTimeout(() => this.setHeaderHeight(), 500))
-    window.addEventListener('resize', () => this.setHeaderHeight())
+    let isPinned = false,
+      releaseTimer;
+    const refreshHeight = () => {
+      height = header.querySelector('.inner')?.clientHeight || 0;
+      header.style.height = height + 'px';
+    };
+    const setPinned = pinned => {
+      if (pinned === isPinned) return;
+      isPinned = pinned;
+      window.clearTimeout(releaseTimer);
 
-    window.addEventListener('scroll', () => {
-      window.scrollY >= header.offsetTop + height ? header.classList.add('fixed-pinned', 'animated') : header.classList.remove('fixed-pinned');
-      window.scrollY >= 200 ? header.classList.add('fixed-header') : header.classList.remove('fixed-header', 'animated');
-    }, { passive: true });
+      if (pinned) {
+        header.classList.add('fixed-pinned');
+        // Paint the off-screen fixed state first, then enable its entrance transition.
+        window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+          if (isPinned) header.classList.add('animated', 'fixed-header');
+        }));
+        return;
+      }
+
+      header.classList.remove('fixed-header');
+      releaseTimer = window.setTimeout(() => {
+        if (!isPinned) header.classList.remove('fixed-pinned', 'animated');
+      }, 280);
+    };
+    const updateStickyState = () => setPinned(window.scrollY >= header.offsetTop + height);
+
+    window.addEventListener('load', () => setTimeout(() => {
+      refreshHeight();
+      updateStickyState();
+    }, 500));
+    window.addEventListener('resize', () => {
+      refreshHeight();
+      updateStickyState();
+    });
+    window.addEventListener('scroll', updateStickyState, { passive: true });
   }
 
   setHeaderHeight() {

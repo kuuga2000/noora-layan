@@ -7,6 +7,135 @@
 #}
 {% extends "layouts.master" %}
 {% block content %}
+    {% if theme.settings.get('nl_brand_rail_enabled', true) %}
+        {% set rail_title = theme.settings.get('nl_brand_rail_title', {'ar': 'مختارات تستحق الاكتشاف', 'en': 'Labels to discover'}) %}
+        {% set rail_title = rail_title is iterable ? rail_title[language.code]|default('') : rail_title %}
+        {% set rail_brands = theme.settings.get('nl_brand_rail_brands', []) %}
+        {% set rail_entries = [] %}
+        {% if rail_brands is iterable %}
+            {% for brand in rail_brands %}
+                {% set brand_name = brand.name|default('') %}
+                {% set brand_url = brand.url|default('') %}
+                {% set brand_url = brand_url is iterable ? '' : brand_url|trim %}
+                {% set brand_link_ok = brand_url starts with 'https://' or brand_url starts with 'http://' or (brand_url starts with '/' and not (brand_url starts with '//')) %}
+                {% if brand_name is not iterable and brand_name and brand_link_ok %}
+                    {% set rail_entries = rail_entries|merge([{'name': brand_name, 'url': brand_url}]) %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <section class="nl-brand-rail nl-container" aria-labelledby="nl-brand-rail-title">
+            <h2 id="nl-brand-rail-title">{{ rail_title is not iterable ? rail_title|e : '' }}</h2>
+            <div class="nl-brand-rail__layout">
+                <ul class="nl-brand-rail__items" aria-label="{{ rail_title is not iterable ? rail_title|e('html_attr') : '' }}">
+                    {% if rail_entries|length %}
+                        {% for brand in rail_entries %}
+                            <li><a class="nl-brand-rail__item" href="{{ brand.url|e('html_attr') }}" aria-label="{{ brand.name|e('html_attr') }}"><span>{{ brand.name|e }}</span></a></li>
+                        {% endfor %}
+                    {% else %}
+                        {% set rail_shortcuts = [
+                            {'label': language.code == 'ar' ? 'وصل حديثاً' : 'New In', 'url': link('latest-products')},
+                            {'label': language.code == 'ar' ? 'الأكثر مبيعاً' : 'Best Sellers', 'url': link('most-sales-products')},
+                            {'label': language.code == 'ar' ? 'العروض' : 'Offers', 'url': link('offers')},
+                            {'label': language.code == 'ar' ? 'كل العلامات' : 'All Brands', 'url': link('brands')}
+                        ] %}
+                        {% for shortcut in rail_shortcuts %}
+                            <li><a class="nl-brand-rail__item" href="{{ shortcut.url|e('html_attr') }}"><span>{{ shortcut.label|e }}</span></a></li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <a class="nl-brand-rail__all" href="{{ link('brands') }}" aria-label="{{ language.code == 'ar' ? 'عرض جميع العلامات' : 'Explore all brands' }}" title="{{ language.code == 'ar' ? 'عرض جميع العلامات' : 'Explore all brands' }}"><span aria-hidden="true">{{ language.code == 'ar' ? '←' : '→' }}</span></a>
+            </div>
+        </section>
+    {% endif %}
+    {% if theme.settings.get('nl_campaign_enabled', true) %}
+        {% set campaign_slides = [{
+            'title': theme.settings.get('nl_campaign_title', {'ar': 'تفاصيل تصنع الفرق', 'en': 'The art of the everyday'}),
+            'description': theme.settings.get('nl_campaign_description', {'ar': 'مختارات أنيقة ترافق لحظاتكِ الجميلة.', 'en': 'Considered pieces for the moments that matter.'}),
+            'cta_label': theme.settings.get('nl_campaign_cta_label', {'ar': 'تسوقي الآن', 'en': 'Discover the edit'}),
+            'url': theme.settings.get('nl_campaign_cta_url', '/latest-products'),
+            'image': theme.settings.get('nl_campaign_image'),
+            'mobile_image': theme.settings.get('nl_campaign_mobile_image'),
+            'default_image': 'images/noora/campaign-bag-1600.webp'|asset,
+            'default_image_960': 'images/noora/campaign-bag-960.webp'|asset,
+            'default_width': 1600,
+            'default_mobile_image': 'images/noora/campaign-bag-mobile.webp'|asset,
+            'panel': false
+        }] %}
+        {% if theme.settings.get('nl_campaign_2_enabled', true) %}
+            {% set campaign_slides = campaign_slides|merge([{
+                'title': theme.settings.get('nl_campaign_2_title', {'ar': 'أناقة على مهل', 'en': 'Elegance, in its own time'}),
+                'description': theme.settings.get('nl_campaign_2_description', {'ar': 'اكتشفي قطعاً تناسب كل يوم.', 'en': 'Discover pieces made for every day.'}),
+                'cta_label': theme.settings.get('nl_campaign_2_cta_label', {'ar': 'اكتشفي المجموعة', 'en': 'Explore the collection'}),
+                'url': theme.settings.get('nl_campaign_2_cta_url', '/latest-products'),
+                'image': theme.settings.get('nl_campaign_2_image'),
+                'mobile_image': theme.settings.get('nl_campaign_2_mobile_image'),
+                'default_image': 'images/noora/hero-1440.webp'|asset,
+                'default_image_960': 'images/noora/hero-960.webp'|asset,
+                'default_width': 1440,
+                'default_mobile_image': 'images/noora/hero-mobile.webp'|asset,
+                'panel': true
+            }]) %}
+        {% endif %}
+        {% if theme.settings.get('nl_campaign_3_enabled', true) %}
+            {% set campaign_slides = campaign_slides|merge([{
+                'title': theme.settings.get('nl_campaign_3_title', {'ar': 'لمسة تكمّل إطلالتك', 'en': 'The finishing touch'}),
+                'description': theme.settings.get('nl_campaign_3_description', {'ar': 'تفاصيل مختارة تمنح إطلالتك طابعاً خاصاً.', 'en': 'Considered details for a look of your own.'}),
+                'cta_label': theme.settings.get('nl_campaign_3_cta_label', {'ar': 'تسوقي الآن', 'en': 'Discover more'}),
+                'url': theme.settings.get('nl_campaign_3_cta_url', '/latest-products'),
+                'image': theme.settings.get('nl_campaign_3_image'),
+                'mobile_image': theme.settings.get('nl_campaign_3_mobile_image'),
+                'default_image': 'images/noora/campaign-shoes-1600.webp'|asset,
+                'default_image_960': 'images/noora/campaign-shoes-960.webp'|asset,
+                'default_width': 1600,
+                'default_mobile_image': 'images/noora/campaign-shoes-mobile.webp'|asset,
+                'panel': false
+            }]) %}
+        {% endif %}
+        <section class="nl-campaign nl-container" aria-labelledby="nl-campaign-title">
+            <div class="nl-campaign__heading">
+                <p class="nl-eyebrow">{{ language.code == 'ar' ? 'نورا ليان | مجموعة مختارة' : 'NOORA LAYAN | THE EDIT' }}</p>
+                <h2 class="nl-campaign__section-title" id="nl-campaign-title">{{ language.code == 'ar' ? 'اكتشفي الجديد' : 'Discover what’s new' }}</h2>
+            </div>
+            <div class="nl-campaign__frame" id="nl-campaign-slides" data-noora-slider aria-live="polite">
+                {% for slide in campaign_slides %}
+                    {% set title = slide.title is iterable ? slide.title[language.code]|default('') : slide.title %}
+                    {% set description = slide.description is iterable ? slide.description[language.code]|default('') : slide.description %}
+                    {% set cta_label = slide.cta_label is iterable ? slide.cta_label[language.code]|default('') : slide.cta_label %}
+                    {% set slide_url = slide.url is iterable ? '' : slide.url|trim %}
+                    {% set slide_has_link = slide_url starts with 'https://' or slide_url starts with 'http://' or (slide_url starts with '/' and not (slide_url starts with '//')) or (slide_url starts with '#' and slide_url|length > 1) %}
+                    {% set custom_image = slide.image is not iterable and slide.image ? slide.image : '' %}
+                    {% set mobile_image = slide.mobile_image is not iterable and slide.mobile_image ? slide.mobile_image : (custom_image ? '' : slide.default_mobile_image) %}
+                    <div class="nl-campaign__slide{{ slide.panel and not custom_image ? ' nl-campaign__slide--portrait' : '' }}" id="nl-campaign-slide-{{ loop.index }}" data-noora-slide{% if not loop.first %} hidden{% endif %}>
+                        <picture class="nl-campaign__picture">
+                            {% if mobile_image %}<source media="(max-width: 639px)" srcset="{{ mobile_image|e('html_attr') }}">{% endif %}
+                            <img src="{{ (custom_image ?: slide.default_image)|e('html_attr') }}"{% if not custom_image %} srcset="{{ slide.default_image_960|e('html_attr') }} 960w, {{ slide.default_image|e('html_attr') }} {{ slide.default_width }}w" sizes="(min-width: 1440px) 1100px, calc(100vw - 40px)"{% endif %} alt="" width="1600" height="614" loading="{{ loop.first ? 'eager' : 'lazy' }}"{% if loop.first %} fetchpriority="high"{% endif %} decoding="async">
+                        </picture>
+                        <div class="nl-campaign__copy{{ slide.panel ? ' nl-campaign__copy--panel' : '' }}">
+                            <span class="nl-campaign__brand">{{ language.code == 'ar' ? 'نورا ليان' : 'NOORA LAYAN' }}</span>
+                            {% if title is not iterable and title %}<h3>{{ title|e }}</h3>{% endif %}
+                            {% if description is not iterable and description %}<p>{{ description|e }}</p>{% endif %}
+                            {% if slide_has_link and cta_label is not iterable and cta_label %}<a class="nl-campaign__button" href="{{ slide_url|e('html_attr') }}">{{ cta_label|e }}<i class="sicon-arrow-left nl-arrow" aria-hidden="true"></i></a>{% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if campaign_slides|length > 1 %}
+                    <button class="nl-campaign__nav nl-campaign__nav--previous" type="button" data-noora-prev aria-label="{{ language.code == 'ar' ? 'الشريحة السابقة' : 'Previous slide' }}" hidden>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="{{ language.code == 'ar' ? 'M12.307 6.338c-.34.33-.34.865.003 1.194l3.979 3.821H4.667c-.368 0-.667.336-.667.75s.299.75.667.75h11.37l-3.73 3.618c-.34.33-.34.865.003 1.194a.898.898 0 001.237-.003l5.25-5.091a.824.824 0 00-.003-1.194l-5.25-5.042a.898.898 0 00-1.237.003z' : 'M11.693 17.662a.824.824 0 00-.003-1.194l-3.979-3.821h11.622c.368 0 .667-.336.667-.75s-.299-.75-.667-.75H7.963l3.73-3.618a.824.824 0 00-.003-1.194.898.898 0 00-1.237.003l-5.25 5.091c-.341.33-.34.865.003 1.194l5.25 5.042a.898.898 0 001.237-.003z' }}" fill="#262626"/></svg>
+                    </button>
+                    <button class="nl-campaign__nav nl-campaign__nav--next" type="button" data-noora-next aria-label="{{ language.code == 'ar' ? 'الشريحة التالية' : 'Next slide' }}" hidden>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="{{ language.code == 'ar' ? 'M11.693 17.662a.824.824 0 00-.003-1.194l-3.979-3.821h11.622c.368 0 .667-.336.667-.75s-.299-.75-.667-.75H7.963l3.73-3.618a.824.824 0 00-.003-1.194.898.898 0 00-1.237.003l-5.25 5.091c-.341.33-.34.865.003 1.194l5.25 5.042a.898.898 0 001.237-.003z' : 'M12.307 6.338c-.34.33-.34.865.003 1.194l3.979 3.821H4.667c-.368 0-.667.336-.667.75s.299.75.667.75h11.37l-3.73 3.618c-.34.33-.34.865.003 1.194a.898.898 0 001.237-.003l5.25-5.091a.824.824 0 00-.003-1.194l-5.25-5.042a.898.898 0 00-1.237.003z' }}" fill="#262626"/></svg>
+                    </button>
+                {% endif %}
+            </div>
+            {% if campaign_slides|length > 1 %}
+                <div class="nl-campaign__dots" role="group" aria-label="{{ language.code == 'ar' ? 'اختيار شريحة الحملة' : 'Choose campaign slide' }}" hidden>
+                    {% for slide in campaign_slides %}
+                        <button type="button" class="nl-campaign__dot" data-noora-dot="{{ loop.index0 }}" aria-controls="nl-campaign-slide-{{ loop.index }}" aria-label="{{ language.code == 'ar' ? 'عرض الشريحة ' : 'Show slide ' }}{{ loop.index }}" aria-current="{{ loop.first ? 'true' : 'false' }}"></button>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
+    {% endif %}
     {% component home %}
 {% endblock %}
 {% block scripts %}
