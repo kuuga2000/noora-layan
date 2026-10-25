@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const manifest = JSON.parse(fs.readFileSync('twilight.json'));
+assert.match(manifest.author_email || '', /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Salla import requires author_email');
 const locales = ['ar', 'en'].map(language => JSON.parse(fs.readFileSync(`src/locales/${language}.json`)));
 const components = manifest.components.filter(component => component.path.startsWith('home.noora-'));
 assert.equal(components.length, 6, 'All six merchant blocks must be registered');
