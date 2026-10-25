@@ -91,11 +91,12 @@
             --color-primary-dark: {{ theme.color.darker(0.15) }};
             --color-primary-light: {{ theme.color.lighter(0.15) }};
             --color-primary-reverse: {{ theme.color.reverse_text }};
-            /* Merchant colors are restricted to six-digit hex before entering CSS. */
-            {% for token, fallback in {'ivory': '#FAF8F4', 'white': '#FFFFFF', 'ink': '#222222', 'gold': '#C6A77D', 'soft': '#F2F2F2'} %}
-                {% set selected_color = theme.settings.get('nl_color_' ~ token, fallback) %}
-                --nl-{{ token }}: {{ selected_color matches '/^#[0-9a-fA-F]{6}$/' ? selected_color : fallback }};
-            {% endfor %}
+            /* Salla's color fields constrain these merchant values. */
+            --nl-ivory: {{ theme.settings.get('nl_color_ivory', '#FAF8F4') }};
+            --nl-white: {{ theme.settings.get('nl_color_white', '#FFFFFF') }};
+            --nl-ink: {{ theme.settings.get('nl_color_ink', '#222222') }};
+            --nl-gold: {{ theme.settings.get('nl_color_gold', '#C6A77D') }};
+            --nl-soft: {{ theme.settings.get('nl_color_soft', '#F2F2F2') }};
             /* Theme specific variables */
             --s-radius: .75rem;
         }
